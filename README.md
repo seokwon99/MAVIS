@@ -11,4 +11,14 @@ The code and data will be available soon!
 
 Please contact at seokwon.song@vision.snu.ac.kr
 
+## Citation
+Please cite our work:
 
+```bibtex  
+@article{song2025mavis,
+  title={MAVIS: A Benchmark for Multimodal Source Attribution in Long-form Visual Question Answering},
+  author={Song, Seokwon and Park, Minsu and Kim, Gunhee},
+  journal={arXiv preprint arXiv:2511.12142},
+  year={2025}
+}
+```
