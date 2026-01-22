@@ -13,6 +13,7 @@
 MAVIS is a new dataset for open-domain, long-form visual question answering, characterized by three key features: (1) the questions incorporate input images, requiring visual understanding to correctly interpret the user’s intent; (2) the desired answers are long-form, necessitating the retrieval and synthesis of diverse information rather than isolated facts; (3) each question is accompanied by gold-standard supporting multimodal documents.
 
 We release the multimodal corpus [here](https://huggingface.co/datasets/seokwon99/MAVIS_documents).
+
 <img src="https://huggingface.co/datasets/seokwon99/MAVIS/resolve/main/mavis_intro.png" width="400" />
 
 ## Load Dataset
