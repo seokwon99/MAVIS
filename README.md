@@ -24,8 +24,80 @@ mavis_test = load_dataset("seokwon99/MAVIS", split="test")
 corpus = load_dataset("seokwon99/MAVIS_documents")
 ```
 
+## Answer Generation
+
+Generate answers using various VLM backends. Two modes are supported: **closed-book** (no retrieval) and **RAG** (retrieval-augmented generation with multimodal documents).
+
+### Closed-book (no retrieval)
+
+```bash
+python experiment/answer_generation.py \
+    --lib openai --model gpt-4o-2024-08-06
+```
+
+### RAG with retrieved documents
+
+```bash
+python experiment/answer_generation.py \
+    --lib openai --model gpt-4o-2024-08-06 \
+    --retr --K 5 --type textimage
+```
+
+**Key arguments:**
+
+| Argument | Description |
+|---|---|
+| `--lib` | Model backend: `openai`, `anthropic`, `qwen`, `internvl`, `llava`, `transformers` |
+| `--model` | Model name (e.g., `gpt-4o-2024-08-06`, `claude-sonnet-4-5-20250929`) |
+| `--retr` | Enable retrieval-augmented generation |
+| `--K` | Number of retrieved documents per query (default: 5) |
+| `--type` | Retrieved document modality: `textimage`, `text`, or `image` |
+| `--gold` | Use gold-standard documents instead of retrieved ones |
+| `--cot` | Enable chain-of-thought reasoning |
+| `--doc_path` | Path to retrieval results directory (default: `experiment/retrieval_result/gpt-4o_1`) |
+
+Results are saved to `experiment/controlled/` as JSONL files.
+
 ## Evaluation
-The evaluation code will be available soon.
+
+Evaluate generated answers across four dimensions. All evaluation scripts take `--eval-path` pointing to the generated answer JSONL file and append scores back to it.
+
+### 1. Groundedness
+
+Measures whether each cited sentence is supported by the referenced documents (precision & recall).
+
+```bash
+python -m experiment.eval.groundedness \
+    --eval-path experiment/controlled/<result_file>.jsonl
+```
+
+### 2. Completeness
+
+Measures how thoroughly the model answer covers the gold-standard sub-questions/sub-answers.
+
+```bash
+python -m experiment.eval.completeness \
+    --eval-path experiment/controlled/<result_file>.jsonl \
+    --base-path experiment/full_test_sampled.jsonl
+```
+
+### 3. Relevance
+
+Measures whether each sentence in the model answer is relevant to the original question.
+
+```bash
+python -m experiment.eval.relevance \
+    --eval-path experiment/controlled/<result_file>.jsonl
+```
+
+### 4. Fluency (MAUVE)
+
+Computes the MAUVE score comparing the distribution of model-generated text against human-written answers.
+
+```bash
+python -m experiment.eval.fluency \
+    --eval-path experiment/controlled/<result_file>.jsonl
+```
 
 ## Have any questions?
 

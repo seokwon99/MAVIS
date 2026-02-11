@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.ipynb
+*$py.class
+
+# Distribution / packaging
+.vscode/
+batch_inputs/
+common/
+data_creation/
+dataset/
+downloads/
+faiss_db/
+formatting/
+human_qual/
+prev_experiment/
+reasoning/
+revised_questions/
+search_queries/
+supportedness/
+supporting_documents/
+VLMs/
+
+
+*.egg
+MANIFEST
+*.jsonl
+*.json
+*.csv
+
+# CLAUDE.md
+CLAUDE.md
+
+# Data construction
+data_construction/
