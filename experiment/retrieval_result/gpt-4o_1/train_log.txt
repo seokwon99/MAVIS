@@ -1,0 +1,94 @@
+[14-11-2025 01:47:43] INFO: Namespace(t5_model_name='OpenMatch/t5-ance', clip_model_name='openai/clip-vit-base-patch32', max_text_len=128, out_path='../../../retrieval_result/gpt-4o_1', checkpoint='hf-nvidia/MM-Embed', img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', doc_path='../data/RefLVQA/all_docs.json', cap_path='../data/RefLVQA/all_imgs.json', img_doc_path=None, encode_txt=False, encode_img=False, encode_query=True, num_workers=10, batch_size=16, chunk=0, max_chunk=1)
+[14-11-2025 01:47:43] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 01:47:43] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 01:47:43] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/1.1" 200 0
+[14-11-2025 01:47:45] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/modeling_nvmmembed.py HTTP/1.1" 307 0
+[14-11-2025 01:47:45] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/modeling_nvmmembed.py HTTP/1.1" 200 0
+[14-11-2025 01:47:45] DEBUG: Loading bitsandbytes native library from: ~/anaconda3/envs/internvl/lib/python3.9/site-packages/bitsandbytes/libbitsandbytes_cuda124.so
+[14-11-2025 01:52:42] INFO: Namespace(t5_model_name='OpenMatch/t5-ance', clip_model_name='openai/clip-vit-base-patch32', max_text_len=128, out_path='../../../retrieval_result/gpt-4o_1', checkpoint='hf-nvidia/MM-Embed', img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', doc_path='../data/RefLVQA/all_docs.json', cap_path='../data/RefLVQA/all_imgs.json', img_doc_path=None, encode_txt=False, encode_img=False, encode_query=True, num_workers=10, batch_size=16, chunk=0, max_chunk=1)
+[14-11-2025 01:52:42] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 01:52:43] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 01:52:43] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/1.1" 200 0
+[14-11-2025 01:52:44] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/modeling_nvmmembed.py HTTP/1.1" 307 0
+[14-11-2025 01:52:44] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/modeling_nvmmembed.py HTTP/1.1" 200 0
+[14-11-2025 01:52:45] DEBUG: Loading bitsandbytes native library from: ~/anaconda3/envs/internvl/lib/python3.9/site-packages/bitsandbytes/libbitsandbytes_cuda124.so
+[14-11-2025 01:54:09] INFO: Namespace(t5_model_name='OpenMatch/t5-ance', clip_model_name='openai/clip-vit-base-patch32', max_text_len=128, out_path='../../../retrieval_result/gpt-4o_1', checkpoint='hf-nvidia/MM-Embed', img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', doc_path='../data/RefLVQA/all_docs.json', cap_path='../data/RefLVQA/all_imgs.json', img_doc_path=None, encode_txt=False, encode_img=False, encode_query=True, num_workers=10, batch_size=16, chunk=0, max_chunk=1)
+[14-11-2025 01:54:26] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 01:54:26] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 01:54:26] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/1.1" 200 0
+[14-11-2025 01:54:28] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/modeling_nvmmembed.py HTTP/1.1" 307 0
+[14-11-2025 01:54:28] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/modeling_nvmmembed.py HTTP/1.1" 200 0
+[14-11-2025 01:54:29] DEBUG: Loading bitsandbytes native library from: ~/anaconda3/envs/internvl/lib/python3.9/site-packages/bitsandbytes/libbitsandbytes_cuda124.so
+[14-11-2025 01:56:12] INFO: Namespace(t5_model_name='OpenMatch/t5-ance', clip_model_name='openai/clip-vit-base-patch32', max_text_len=128, out_path='../../../retrieval_result/gpt-4o_1', checkpoint='hf-nvidia/MM-Embed', img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', doc_path='../data/RefLVQA/all_docs.json', cap_path='../data/RefLVQA/all_imgs.json', img_doc_path=None, encode_txt=False, encode_img=False, encode_query=True, num_workers=10, batch_size=16, chunk=0, max_chunk=1)
+[14-11-2025 01:56:12] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 01:56:12] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 01:56:12] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/1.1" 200 0
+[14-11-2025 01:56:14] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/modeling_nvmmembed.py HTTP/1.1" 307 0
+[14-11-2025 01:56:14] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/modeling_nvmmembed.py HTTP/1.1" 200 0
+[14-11-2025 01:56:15] DEBUG: Loading bitsandbytes native library from: ~/anaconda3/envs/internvl/lib/python3.9/site-packages/bitsandbytes/libbitsandbytes_cuda124.so
+[14-11-2025 01:58:38] INFO: Namespace(batch_size=16, cap_path='../data/RefLVQA/all_imgs.json', checkpoint='hf-nvidia/MM-Embed', chunk=0, clip_model_name='openai/clip-vit-base-patch32', doc_path='../data/RefLVQA/all_docs.json', encode_img=False, encode_query=True, encode_txt=False, img_doc_path=None, img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', max_chunk=1, max_text_len=128, num_workers=10, out_path='../../../retrieval_result/gpt-4o_1', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', t5_model_name='OpenMatch/t5-ance')
+[14-11-2025 01:58:38] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 01:58:38] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 01:58:38] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/1.1" 200 0
+[14-11-2025 01:58:59] INFO: Namespace(batch_size=16, cap_path='../data/RefLVQA/all_imgs.json', checkpoint='hf-nvidia/MM-Embed', chunk=0, clip_model_name='openai/clip-vit-base-patch32', doc_path='../data/RefLVQA/all_docs.json', encode_img=False, encode_query=True, encode_txt=False, img_doc_path=None, img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', max_chunk=1, max_text_len=128, num_workers=10, out_path='../../../retrieval_result/gpt-4o_1', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', t5_model_name='OpenMatch/t5-ance')
+[14-11-2025 01:58:59] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 01:59:00] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 01:59:00] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/1.1" 200 0
+[14-11-2025 02:02:54] INFO: Namespace(t5_model_name='OpenMatch/t5-ance', clip_model_name='openai/clip-vit-base-patch32', max_text_len=128, out_path='../../../retrieval_result/gpt-4o_1', checkpoint='hf-nvidia/MM-Embed', img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', doc_path='../data/RefLVQA/all_docs.json', cap_path='../data/RefLVQA/all_imgs.json', img_doc_path=None, encode_txt=False, encode_img=False, encode_query=True, num_workers=10, batch_size=16, chunk=0, max_chunk=1)
+[14-11-2025 02:02:54] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 02:02:54] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 02:02:54] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/1.1" 200 0
+[14-11-2025 02:02:56] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/modeling_nvmmembed.py HTTP/1.1" 307 0
+[14-11-2025 02:02:56] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/modeling_nvmmembed.py HTTP/1.1" 200 0
+[14-11-2025 02:02:56] DEBUG: Loading bitsandbytes native library from: ~/anaconda3/envs/internvl/lib/python3.9/site-packages/bitsandbytes/libbitsandbytes_cuda124.so
+[14-11-2025 02:05:55] INFO: Namespace(batch_size=16, cap_path='../data/RefLVQA/all_imgs.json', checkpoint='hf-nvidia/MM-Embed', chunk=0, clip_model_name='openai/clip-vit-base-patch32', doc_path='../data/RefLVQA/all_docs.json', encode_img=False, encode_query=True, encode_txt=False, img_doc_path=None, img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', max_chunk=1, max_text_len=128, num_workers=10, out_path='../../../retrieval_result/gpt-4o_1', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', t5_model_name='OpenMatch/t5-ance')
+[14-11-2025 02:05:55] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 02:05:55] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/11" 307 0
+[14-11-2025 02:05:55] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/11" 200 0
+[14-11-2025 02:05:56] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/modeling_nvmmembed.py HTTP/11" 307 0
+[14-11-2025 02:05:56] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/modeling_nvmmembed.py HTTP/11" 200 0
+[14-11-2025 02:06:49] INFO: Namespace(t5_model_name='OpenMatch/t5-ance', clip_model_name='openai/clip-vit-base-patch32', max_text_len=128, out_path='../../../retrieval_result/gpt-4o_1', checkpoint='hf-nvidia/MM-Embed', img_feat_path='../data/RefLVQA/imgs.tsv', img_linelist_path='../data/RefLVQA/imgs.lineidx.new', query_path='~/code/EMNLP25-LongVQA/experiment/query_gen/gpt-4o_1.jsonl', doc_path='../data/RefLVQA/all_docs.json', cap_path='../data/RefLVQA/all_imgs.json', img_doc_path=None, encode_txt=False, encode_img=False, encode_query=True, num_workers=10, batch_size=16, chunk=0, max_chunk=1)
+[14-11-2025 02:06:49] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 02:06:49] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 02:06:49] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/config.json HTTP/1.1" 200 0
+[14-11-2025 02:06:50] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/modeling_nvmmembed.py HTTP/1.1" 307 0
+[14-11-2025 02:06:50] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/modeling_nvmmembed.py HTTP/1.1" 200 0
+[14-11-2025 02:06:51] DEBUG: Loading bitsandbytes native library from: ~/anaconda3/envs/uniir/lib/python3.9/site-packages/bitsandbytes/libbitsandbytes_cuda124.so
+[14-11-2025 02:06:53] DEBUG: https://huggingface.co:443 "HEAD /nvidia/NV-Embed-v1/resolve/main/config.json HTTP/1.1" 200 0
+[14-11-2025 02:06:53] DEBUG: https://huggingface.co:443 "HEAD /nvidia/NV-Embed-v1/resolve/main/configuration_nvembed.py HTTP/1.1" 200 0
+[14-11-2025 02:06:53] DEBUG: https://huggingface.co:443 "HEAD /nvidia/NV-Embed-v1/resolve/main/config.json HTTP/1.1" 200 0
+[14-11-2025 02:06:53] DEBUG: https://huggingface.co:443 "HEAD /nvidia/NV-Embed-v1/resolve/main/modeling_nvembed.py HTTP/1.1" 200 0
+[14-11-2025 02:06:53] DEBUG: PyTorch version 2.4.0 available.
+[14-11-2025 02:06:55] DEBUG: https://huggingface.co:443 "HEAD /nvidia/NV-Embed-v1/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+[14-11-2025 02:06:55] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/preprocessor_config.json HTTP/1.1" 307 0
+[14-11-2025 02:06:55] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/preprocessor_config.json HTTP/1.1" 200 0
+[14-11-2025 02:06:55] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/tokenizer_config.json HTTP/1.1" 307 0
+[14-11-2025 02:06:56] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/tokenizer_config.json HTTP/1.1" 200 0
+[14-11-2025 02:06:56] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/processor_config.json HTTP/1.1" 404 0
+[14-11-2025 02:06:56] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/chat_template.json HTTP/1.1" 404 0
+[14-11-2025 02:06:56] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/chat_template.jinja HTTP/1.1" 404 0
+[14-11-2025 02:06:59] DEBUG: https://huggingface.co:443 "HEAD /nvidia/MM-Embed/resolve/main/generation_config.json HTTP/1.1" 307 0
+[14-11-2025 02:06:59] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/nvidia/MM-Embed/a2542c237b5b700ed01b829689756425441cef97/generation_config.json HTTP/1.1" 200 0
+[14-11-2025 02:07:58] DEBUG: https://huggingface.co:443 "HEAD /openai/clip-vit-base-patch32/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 02:07:58] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/openai/clip-vit-base-patch32/3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268/config.json HTTP/1.1" 200 0
+[14-11-2025 02:07:58] DEBUG: https://huggingface.co:443 "HEAD /openai/clip-vit-base-patch32/resolve/main/config.json HTTP/1.1" 307 0
+[14-11-2025 02:07:58] DEBUG: https://huggingface.co:443 "HEAD /api/resolve-cache/models/openai/clip-vit-base-patch32/3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268/config.json HTTP/1.1" 200 0
+[14-11-2025 02:07:58] DEBUG: https://huggingface.co:443 "HEAD /openai/clip-vit-base-patch32/resolve/main/model.safetensors HTTP/1.1" 404 0
+[14-11-2025 02:07:58] DEBUG: Starting new HTTPS connection (1): huggingface.co:443
+[14-11-2025 02:07:59] DEBUG: https://huggingface.co:443 "GET /api/models/openai/clip-vit-base-patch32 HTTP/1.1" 200 4914
+[14-11-2025 02:07:59] DEBUG: https://huggingface.co:443 "GET /api/models/openai/clip-vit-base-patch32/commits/main HTTP/1.1" 200 4272
+[14-11-2025 02:07:59] DEBUG: https://huggingface.co:443 "GET /api/models/openai/clip-vit-base-patch32/discussions?p=0 HTTP/1.1" 200 33578
+[14-11-2025 02:07:59] DEBUG: https://huggingface.co:443 "GET /api/models/openai/clip-vit-base-patch32/commits/refs%2Fpr%2F66 HTTP/1.1" 200 5237
+[14-11-2025 02:07:59] DEBUG: Starting new HTTPS connection (1): safetensors-convert.hf.space:443
+[14-11-2025 02:08:00] DEBUG: https://safetensors-convert.hf.space:443 "POST /call/run HTTP/1.1" 200 47
+[14-11-2025 02:08:00] DEBUG: Starting new HTTPS connection (1): safetensors-convert.hf.space:443
+[14-11-2025 02:08:01] DEBUG: https://safetensors-convert.hf.space:443 "GET /call/run/c30e2e0f361a4385a0ed9d7358b3b536 HTTP/1.1" 200 None
+[14-11-2025 02:08:02] DEBUG: https://huggingface.co:443 "GET /api/models/openai/clip-vit-base-patch32/commits/main HTTP/1.1" 200 4272
+[14-11-2025 02:08:02] DEBUG: https://huggingface.co:443 "GET /api/models/openai/clip-vit-base-patch32/discussions?p=0 HTTP/1.1" 200 33578
+[14-11-2025 02:08:02] DEBUG: https://huggingface.co:443 "GET /api/models/openai/clip-vit-base-patch32/commits/refs%2Fpr%2F66 HTTP/1.1" 200 5237
+[14-11-2025 02:08:03] DEBUG: https://huggingface.co:443 "HEAD /openai/clip-vit-base-patch32/resolve/refs%2Fpr%2F66/model.safetensors.index.json HTTP/1.1" 404 0
+[14-11-2025 02:08:03] DEBUG: https://huggingface.co:443 "HEAD /openai/clip-vit-base-patch32/resolve/refs%2Fpr%2F66/model.safetensors HTTP/1.1" 302 0
+[14-11-2025 02:08:03] DEBUG: Attempting to acquire lock 140650484020848 on ~/.cache/huggingface/hub/.locks/models--openai--clip-vit-base-patch32/99d28a652e6ec46629ab7047a0ac82c69b1fe11e0ce672c43af65d3a9a3fc05d.lock
+[14-11-2025 02:08:03] DEBUG: Lock 140650484020848 acquired on ~/.cache/huggingface/hub/.locks/models--openai--clip-vit-base-patch32/99d28a652e6ec46629ab7047a0ac82c69b1fe11e0ce672c43af65d3a9a3fc05d.lock
+[14-11-2025 02:08:03] DEBUG: Attempting to release lock 140650484020848 on ~/.cache/huggingface/hub/.locks/models--openai--clip-vit-base-patch32/99d28a652e6ec46629ab7047a0ac82c69b1fe11e0ce672c43af65d3a9a3fc05d.lock
+[14-11-2025 02:08:03] DEBUG: Lock 140650484020848 released on ~/.cache/huggingface/hub/.locks/models--openai--clip-vit-base-patch32/99d28a652e6ec46629ab7047a0ac82c69b1fe11e0ce672c43af65d3a9a3fc05d.lock
