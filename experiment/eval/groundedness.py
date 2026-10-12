@@ -1,19 +1,22 @@
-from util import *
-import nltk
-from third_party.model.openai import ParallelGPT
+"""Groundedness: citation recall and precision of each answer (paper Section 4.2).
+
+    python -m experiment.eval.groundedness --eval-path outputs/answers/<file>.jsonl [--modality image]
+
+GPT-4.1 judges whether each answer sentence a_i is supported by its cited documents C_i.
+Recall averages s(a_i, C_i) over all sentences (a sentence without citations scores 0);
+precision averages, over the cited sentences, the mean of s(a_i, c) for each c in C_i
+(0 for an answer without citations). --modality text|image keeps only citations of that
+modality and scores only the sentences that cite it (modality-specific evaluation, Section 5.6).
+"""
 import argparse
-from tqdm import tqdm
-import pandas as pd
-from experiment.retrieval.MARVEL.ANCE.visual import TSVFile
-import random
-nltk.download('punkt')
 
-TEXT_MAX_LENGTH = 3000
+import numpy as np
 
-model = ParallelGPT("gpt-4.1")
+from experiment.corpus import Corpus, doc_type
+from experiment.eval.judge import Judge, answer_sentences, is_failed, label_score, report
+from util import encode_image, read_jsonlines, write_jsonlines
 
-prompt_template = """
-Instruction:
+PROMPT = """Instruction:
 1. You will be given a question, a statement, and an external document.
 2. First, extract all subclaims within the statement that need verification.
 3. Assess how well each subclaim is supported by the document.
@@ -26,191 +29,65 @@ Important:
 Provide a brief explanation for your chosen level of support. The final answer should begin with "Answer: ".
 
 Statement: {statement}
-Document:
-"""
+Documents: """
+
+
+def support_message(corpus, statement, doc_ids):
+    content = [{"type": "text", "text": PROMPT.format(statement=statement)}]
+    for k, doc in enumerate(doc_ids):
+        if k > 0:
+            content.append({"type": "text", "text": "\n\n"})
+        if doc_type(doc) == "image":
+            content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{encode_image(corpus.image_path(doc))}"}})
+        else:
+            content.append({"type": "text", "text": corpus.text(doc)})
+    return [{"role": "user", "content": content}]
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--eval-path", type=str)
-    parser.add_argument("--modality", type=str, default="textimage")
-    parser.add_argument("--eval-count", type=int, default=-1)
-    parser.add_argument("--doc_path", type=str, default="experiment/retrieval/MARVEL/ANCE/reflvqa_mmembed/ctx_idxs_text.json")
-    parser.add_argument("--img_linelist_path", type=str, default="experiment/retrieval/MARVEL/data/WebQA/imgs.lineidx.new")
-    parser.add_argument("--img_feat_path", type=str, default="experiment/retrieval/MARVEL/data/WebQA/imgs.tsv")
+    parser.add_argument("--eval-path", type=str, required=True)
+    parser.add_argument("--modality", type=str, default="all", choices=["all", "text", "image"])
+    parser.add_argument("--data_dir", type=str, default="data")
+    parser.add_argument("--webqa_dir", type=str, default=None, help="Defaults to <data_dir>/webqa")
     args = parser.parse_args()
-    
-    image2id = json.load(open("experiment/retrieval/MARVEL/data/RefLVQA/image2id.json"))
-    text2id1 = pd.read_json("experiment/retrieval/MARVEL/data/RefLVQA/all_docs.json", lines=True)
-    text2id2 = pd.read_json("experiment/retrieval/MARVEL/data/WebQA/all_docs.json", lines=True)
-    text2id = pd.concat([text2id1, text2id2], ignore_index=True)
 
-    id2docs = json.load(open(args.doc_path))        
-    id2image = {str(v): k for k, v in image2id.items()}
-    id2text = {v['snippet_id']: v['fact'] for k, v in text2id.iterrows()}
-
-    img_map = {}
-    img_ids = []
-    all_img_num = 0
-    with open(args.img_linelist_path) as fin:
-        for i, line in enumerate(fin):
-            tokens = line.strip().split('\t')
-            all_img_num += 1
-            img_map[tokens[0]] = int(tokens[1])
-            img_ids.append(tokens[0])
-    img_tsv = TSVFile(args.img_feat_path, all_img_num)
-
+    corpus = Corpus(args.data_dir, args.webqa_dir)
     results = read_jsonlines(args.eval_path)
-    results = [line for line in results if len(line['A'][0]) > 500]
 
-    def verify_groundedness(lines):
-        messages = []
-        keys = []
+    messages, keys = [], []
+    n_sentences = {}
+    for row, line in enumerate(results):
+        if is_failed(line):
+            continue
+        sentences = answer_sentences(line)
+        if args.modality != "all":
+            sentences = [(sentence, [doc for doc in docs if doc_type(doc) == args.modality]) for sentence, docs in sentences]
+            sentences = [(sentence, docs) for sentence, docs in sentences if docs]
+        n_sentences[row] = len(sentences)
+        for i, (sentence, docs) in enumerate(sentences):
+            if not docs:
+                continue
+            messages.append(support_message(corpus, sentence, docs))
+            keys.append((row, i, "recall"))
+            if len(docs) > 1:  # with one citation, precision equals recall
+                for doc in docs:
+                    messages.append(support_message(corpus, sentence, [doc]))
+                    keys.append((row, i, "precision"))
 
-        for line in tqdm(lines):
-            question = line['Q']
-            answer = line['answer']
-            qid = line['qid']
+    responses = Judge().generate(messages)["responses"]
+    judged = {}
+    for (row, i, kind), response in zip(keys, responses):
+        judged.setdefault((row, i), {"recall": [], "precision": []})[kind].append(label_score(response[0], "answer:"))
 
-            answer = answer.split("</thinking>")[-1].strip()
-            sentences = extract_references(answer)
-            if args.eval_count != -1:
-                length = min(args.eval_count, len(sentences))
-                sentences = random.sample(sentences, length)
-
-            def add_content(documents_id, seperate=False):
-                messages = []
-                if seperate:
-                    for i in range(len(documents_id)):
-                        messages.extend(add_content(documents_id[i:i+1], False))
-                else:
-                    content = []
-                    content.append({
-                        "type": "text",
-                        "text": prompt_template.format(question=question, statement=sentence)
-                    })
-                    content.append({
-                        "type": "text",
-                        "text": "<document>"
-                    })
-                    for doc_id in documents_id:
-                        doc_id = str(doc_id)
-                        doc_type = "text" if ("-" in doc_id) or ("_" in doc_id) else "image"
-
-                        if doc_type == "image":
-                            if int(doc_id) < 30000000:
-                                image_url = id2image[doc_id]
-                                content.append({
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": f"data:image/jpeg;base64,{encode_image(image_url)}",
-                                    }
-                                })
-                            else:
-                                base64_image = img_tsv[img_map[doc_id]][1]
-                                content.append({
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": f"data:image/jpeg;base64,{base64_image}",
-                                    }
-                                })
-                        else:
-                            text_doc = id2text[doc_id]
-                            content.append({
-                                "type": "text",
-                                "text": text_doc
-                            })
-                    content.append({
-                        "type": "text",
-                        "text": "</document>"
-                    })
-                    message = [
-                        {
-                            "role": "user",
-                            "content": content
-                        }
-                    ]
-                    messages.append(message)
-
-                return messages
-
-            temp_messages = []
-            temp_keys = []
-
-            for i, (sentence, refs) in enumerate(sentences):
-                refs = refs.replace("[", "").replace("]", "").split(",")
-                refs = [int(ref) for ref in refs if ref.strip().isdigit() and ref != '0']
-
-                documents_id = [line['documents_id'][ref-1] for ref in refs if ref-1 < len(line['documents'])]
-
-                if args.modality != "textimage":
-                    documents_id = [doc_id for doc_id in documents_id if "-" not in doc_id]
-                
-                if len(documents_id) == 0:
-                    continue
-                
-                # Index 0 denotes the recall of the question
-                # if document length is over 1, we need to seperate them to calculate precision
-                if len(documents_id) > 1:
-                    single_sentence_messages = add_content(documents_id, seperate=False) + add_content(documents_id, seperate=True)
-                    single_sentence_keys = [f"{qid}_{i}_{j}" for j in range(len(single_sentence_messages))]
-                # if document length is 1, precision is equal to recall
-                elif len(documents_id) == 1:
-                    single_sentence_messages = add_content(documents_id, seperate=False)
-                    single_sentence_keys = [f"{qid}_{i}_0"]
-                else:
-                    raise ValueError(f"Unexpected documents_id length: {len(documents_id)} for qid: {qid}")
-
-                temp_messages.extend(single_sentence_messages)
-                temp_keys.extend(single_sentence_keys)
-
-            messages.extend(temp_messages)
-            keys.extend(temp_keys)
-
-        response = model.generate(messages=messages)['responses']
-
-        # response = [["fully"] for _ in range(len(messages))]
-        response = [r[0].lower().split("answer:")[-1].split()[0] for r in response]
-        response = [1 if 'fully' in r else 0.5 if 'partially' in r else 0 for r in response]
-        response = {key: value for key, value in zip(keys, response)}
-
-        return response
-    
-    response = verify_groundedness(results)
-
-    results = [
-        {
-            **line,
-            "groundedness": {key.removeprefix(f"{line['qid']}_"): response[key] for key in response if key.startswith(f"{line['qid']}_")}
-        } for line in results
-    ]
-
-    scores = []
-    for line in results:
-        groundedness = line['groundedness']
-        if len(groundedness) == 0:
-            scores.append({
-                "recall": 0,
-                "precision": 0,
-            })
-        else:
-            # 1_0, 2_0, 2_1, 3_0
-            sent_idxs = list(set(int(k.split("_")[0]) for k in groundedness.keys()))
-            for sent_idx in sent_idxs:
-                if f"{sent_idx}_1" not in groundedness:
-                    groundedness[f"{sent_idx}_1"] = groundedness[f"{sent_idx}_0"]
-            
-            recall_per_sent = [groundedness[f"{idx}_0"] for idx in sent_idxs]
-            precision_per_sent = [np.mean([groundedness[key] for key in groundedness if key.startswith(f"{idx}_") and not key.endswith("_0")]) for idx in sent_idxs]
-            scores.append({
-                "recall": np.mean(recall_per_sent),
-                "precision": np.mean(precision_per_sent),
-            })
-
-    results = [
-        {
-            **line,
-            "recall": scores[i]["recall"],
-            "precision": scores[i]["precision"],
-        } for i, line in enumerate(results)
-    ]
+    suffix = "" if args.modality == "all" else f"_{args.modality}"
+    for row, line in enumerate(results):
+        recall = precision = None
+        if n_sentences.get(row):
+            cited = [v for (r, _), v in judged.items() if r == row]
+            recall = sum(v["recall"][0] for v in cited) / n_sentences[row]
+            precision = float(np.mean([np.mean(v["precision"] or v["recall"]) for v in cited])) if cited else 0.0
+        line[f"recall{suffix}"], line[f"precision{suffix}"] = recall, precision
+    report("Recall", [line[f"recall{suffix}"] for line in results])
+    report("Precision", [line[f"precision{suffix}"] for line in results])
     write_jsonlines(args.eval_path, results)

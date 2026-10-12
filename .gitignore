@@ -1,35 +1,17 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
-*.ipynb
-*$py.class
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
 
-# Distribution / packaging
+# Editors
 .vscode/
-batch_inputs/
-common/
-data_creation/
-dataset/
-downloads/
-faiss_db/
-formatting/
-human_qual/
-prev_experiment/
-reasoning/
-revised_questions/
-search_queries/
-supportedness/
-supporting_documents/
-VLMs/
+.idea/
 
+# Data and outputs (download with scripts/prepare_data.py)
+data/
+outputs/
+*.pkl
 
-*.egg
-MANIFEST
-*.jsonl
-*.json
-*.csv
-
-# CLAUDE.md
+# Local notes
 CLAUDE.md
-
-# Data construction
-data_construction/
