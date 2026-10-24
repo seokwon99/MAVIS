@@ -237,7 +237,7 @@ MAVIS/
 
 ```bibtex
 @inproceedings{song2026mavis,
-  title     = {MAVIS: A Benchmark for Multimodal Source Attribution in Long-form Visual Question Answering},
+  title     = {{MAVIS}: A Benchmark for Multimodal Source Attribution in Long-form Visual Question Answering},
   author    = {Song, Seokwon and Park, Minsu and Kim, Gunhee},
   booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
   volume    = {40},
