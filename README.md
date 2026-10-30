@@ -7,9 +7,20 @@
 <a href="https://arxiv.org/abs/2511.12142"><img src="https://img.shields.io/badge/arXiv-2511.12142-b31b1b" alt="arXiv 2511.12142"></a>
 <a href="https://huggingface.co/datasets/seokwon99/MAVIS"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-MAVIS-ffc107" alt="MAVIS QA set on Hugging Face"></a>
 <a href="https://huggingface.co/datasets/seokwon99/MAVIS_documents"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Corpus-MAVIS__documents-ffc107" alt="MAVIS corpus on Hugging Face"></a>
+<a href="https://github.com/EvolvingLMMs-Lab/lmms-eval/tree/main/lmms_eval/tasks/mavis"><img src="https://img.shields.io/badge/lmms--eval-mavis-2ea44f" alt="MAVIS tasks in lmms-eval"></a>
 </p>
 
 </div>
+
+> [!TIP]
+> **⚡ Quick start with [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval):** evaluate a model on MAVIS in one command, without downloading the corpus.
+> ```bash
+> pip install git+https://github.com/EvolvingLMMs-Lab/lmms-eval.git
+> export OPENAI_API_KEY=...   # GPT-4.1 judge
+> python -m lmms_eval --model qwen2_5_vl --model_args pretrained=Qwen/Qwen2.5-VL-7B-Instruct \
+>     --tasks mavis_gt,mavis_multirag --batch_size 1
+> ```
+> Tasks: `mavis_gt` (gold documents), `mavis_multirag`, `mavis_textrag`, `mavis_imagerag` (retrieved documents) and their 200-answer `_mini` subsets. See [Evaluate with lmms-eval](#-evaluate-with-lmms-eval).
 
 ## 🔥 News
 
