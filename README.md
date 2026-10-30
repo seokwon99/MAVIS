@@ -13,6 +13,7 @@
 
 ## 🔥 News
 
+- **2026-10-30**: The retrieval settings (Multi-, Text- and Image-RAG) are added to lmms-eval as `mavis_multirag`, `mavis_textrag` and `mavis_imagerag` ([#1620](https://github.com/EvolvingLMMs-Lab/lmms-eval/pull/1620)).
 - **2026-10-29**: MAVIS is now available in [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) as the `mavis_gt` and `mavis_gt_mini` tasks ([#1607](https://github.com/EvolvingLMMs-Lab/lmms-eval/pull/1607)). See [Evaluate with lmms-eval](#-evaluate-with-lmms-eval).
 - **2026-03-14**: The paper is published in the [Proceedings of AAAI 2026](https://ojs.aaai.org/index.php/AAAI/article/view/40585).
 - **2026-01-22**: MAVIS is accepted to AAAI 2026. We release the QA set and the multimodal retrieval corpus on Hugging Face.
@@ -129,12 +130,17 @@ python scripts/prepare_data.py --skip qa corpus retrieval --with_train [--downlo
 
 ## ⚡ Evaluate with lmms-eval
 
-To score a model in the GT-RAG setting (the human-annotated supporting documents) without running this pipeline, use the MAVIS tasks in [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval/tree/main/lmms_eval/tasks/mavis). They load the data from Hugging Face and use the same judge prompts and scoring rules as `experiment/eval`, with GPT-4.1 as the judge.
+To score a model without running this pipeline, use the MAVIS tasks in [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval/tree/main/lmms_eval/tasks/mavis). They load the data from Hugging Face and use the same judge prompts and scoring rules as `experiment/eval`, with GPT-4.1 as the judge.
 
 | Task | Setting | Answers |
 | --- | --- | --- |
 | `mavis_gt` | GT-RAG on the full test set | 1,000 |
-| `mavis_gt_mini` | GT-RAG on a fixed subset with the domain mix of the full set | 200 |
+| `mavis_multirag` | Multi-RAG: top-5 retrieved text and image documents | 1,000 |
+| `mavis_textrag` | Text-RAG: top-5 retrieved text documents | 1,000 |
+| `mavis_imagerag` | Image-RAG: top-5 retrieved image documents | 1,000 |
+| `mavis_gt_mini`, `mavis_multirag_mini`, `mavis_textrag_mini`, `mavis_imagerag_mini` | The same settings on a fixed subset with the domain mix of the full set | 200 |
+
+The retrieval tasks use the precomputed results in `data/retrieval/results/gpt-4o_1` (MM-Embed with one GPT-4o query per question). These do not match the documents behind the paper's retrieval tables exactly, so their scores are not directly comparable to the paper's.
 
 The tasks are merged into lmms-eval `main` and are not yet in a PyPI release, so install lmms-eval from source:
 
@@ -146,14 +152,14 @@ python -m lmms_eval --model qwen2_5_vl --model_args pretrained=Qwen/Qwen2.5-VL-7
     --tasks mavis_gt --batch_size 1
 ```
 
-lmms-eval reports `mavis_groundedness` (F1 of `mavis_recall` and `mavis_precision`) and `mavis_informativeness` (F1 of `mavis_completeness` and `mavis_relevance`) on a 0–100 scale. On `mavis_gt`, its scores agree with this repository within 0.5 points:
+lmms-eval reports `mavis_groundedness` (F1 of `mavis_recall` and `mavis_precision`) and `mavis_informativeness` (F1 of `mavis_completeness` and `mavis_relevance`) on a 0–100 scale. On `mavis_gt`, its scores agree with this repository within 0.5 points (GPT-4o on `mavis_multirag`: 58.3 / 58.2 groundedness, 41.4 / 41.1 informativeness):
 
 | Model | Groundedness (lmms-eval / this repo) | Informativeness (lmms-eval / this repo) |
 | --- | --- | --- |
 | GPT-4o | 46.1 / 45.8 | 53.7 / 53.7 |
 | Qwen2.5-VL-7B | 35.6 / 35.5 | 48.8 / 48.7 |
 
-The retrieval settings (Multi-, Text- and Image-RAG over the full corpus) and fluency (MAUVE) are not in lmms-eval; use the pipeline below for them. Judge options (`MAVIS_JUDGE_MODEL`, `MAVIS_JUDGE_API_TYPE`, `MAVIS_JUDGE_WORKERS`) are listed in the [task README](https://github.com/EvolvingLMMs-Lab/lmms-eval/blob/main/lmms_eval/tasks/mavis/README.md).
+Fluency (MAUVE), and retrieval with other retrievers or queries, are not in lmms-eval; use the pipeline below for them. Judge options (`MAVIS_JUDGE_MODEL`, `MAVIS_JUDGE_API_TYPE`, `MAVIS_JUDGE_WORKERS`) are listed in the [task README](https://github.com/EvolvingLMMs-Lab/lmms-eval/blob/main/lmms_eval/tasks/mavis/README.md).
 
 ## 🏃 Quick Start
 
